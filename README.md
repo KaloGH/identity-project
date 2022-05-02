@@ -2,7 +2,11 @@
 # iDentity - Social Network
 
 iDentity is an social network which is so similar to Instagram.
-I will update README file while i'm doing the project.
+
+
+## Documentation
+
+[Documentation](https://linktodocumentation)
 
 
 ## Tech Stack
@@ -13,4 +17,13 @@ I will update README file while i'm doing the project.
 
 
 ![Logo](http://kaloyanek.me/assets/img/3.png)
+
+
+## Deployment
+
+To deploy this project run
+
+```bash
+  flutter run
+```
 
