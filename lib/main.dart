@@ -18,8 +18,8 @@ void main() async {
   ];
   bool hasEnv = dotenv.isEveryDefined(
       _requiredEnvVars); // Comprobación de que están todas las variables
+  // Si están todas las variables, cargamos la página
   if (hasEnv) {
-    // Si están todas las variables, cargamos la página
     var firebaseApiKey = dotenv.env['FIREBASE_API_KEY'] ?? "";
     var firebaseAppID = dotenv.env['FIREBASE_APP_ID'] ?? "";
     var firebaseMessagingSenderID =
