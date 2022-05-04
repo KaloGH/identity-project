@@ -20,6 +20,10 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           //svg logo
           //Inputs of email and password
+
+          //Buttons of login and register
+
+          //Button of forgot password
         ],
       ),
     )));

@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "***REMOVED***",
-    "project_id": "***REMOVED***",
-    "storage_bucket": "***REMOVED***.appspot.com"
+    "project_number": "1068583575767",
+    "project_id": "identity-4f953",
+    "storage_bucket": "identity-4f953.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:***REMOVED***:android:497a383d33a4046846d092",
+        "mobilesdk_app_id": "1:1068583575767:android:497a383d33a4046846d092",
         "android_client_info": {
           "package_name": "com.example.identity_project"
         }
       },
       "oauth_client": [
         {
-          "client_id": "***REMOVED***-hvdb7s9umpll85b9755d7s7np92f9krm.apps.googleusercontent.com",
+          "client_id": "1068583575767-hvdb7s9umpll85b9755d7s7np92f9krm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +27,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "***REMOVED***-hvdb7s9umpll85b9755d7s7np92f9krm.apps.googleusercontent.com",
+              "client_id": "1068583575767-hvdb7s9umpll85b9755d7s7np92f9krm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
