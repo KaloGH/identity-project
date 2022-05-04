@@ -9,8 +9,6 @@
 .history
 .svn/
 *.env
-.sensibleData.txt
-*bfg*.jar
 
 # IntelliJ related
 *.iml
