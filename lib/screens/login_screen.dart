@@ -29,13 +29,13 @@ class _LoginScreenState extends State<LoginScreen> {
     final StatefulWidget logo;
     if (kIsWeb) {
       logo = SvgPicture.asset(
-        'svg/logo_white.svg',
+        'svg/logo_brandname_white.svg',
         height: 350,
       );
     } else {
       logo = Image.asset(
-        'assets/images/logo_white.png',
-        height: 350,
+        'assets/images/brandname_white.png',
+        height: 250,
       );
     }
 
