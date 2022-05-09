@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/foundation.dart';
+import 'package:identity_project/resources/auth_methods.dart';
 import 'package:identity_project/utils/colors.dart';
 import 'package:identity_project/widgets/text_input_field.dart';
 
@@ -44,6 +45,7 @@ class _SignupScreenState extends State<SignupScreen> {
     }
 
     return Scaffold(
+      //TODO: Check why something is wrong.
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 45),
@@ -143,6 +145,14 @@ class _SignupScreenState extends State<SignupScreen> {
               //                    Signup BUTTON
               // **************************************************************
               InkWell(
+                onTap: () async {
+                  String res = await AuthMethods().signUpUser(
+                      email: _emailController.text,
+                      password: _passController.text,
+                      username: _usernameController.text,
+                      bio: _bioController.text);
+                  print(res);
+                },
                 child: Container(
                   child: const Text(
                     'Sign up',
@@ -192,7 +202,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                       padding: const EdgeInsets.symmetric(
-                        vertical: 30,
+                        vertical: 10,
                       ),
                     ),
                   ),
