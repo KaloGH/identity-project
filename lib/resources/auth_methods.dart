@@ -15,17 +15,14 @@ class AuthMethods {
     required String email,
     required String password,
     required String username,
-    required String bio,
-    // required Uint8List file, // Latter we will use Uint8List and not File
+    required Uint8List file, // Latter we will use Uint8List and not File
   }) async {
     String res = "Some error ocurred";
     try {
       if (email.isNotEmpty ||
-              password.isNotEmpty ||
-              username.isNotEmpty ||
-              bio.isNotEmpty /*||
-          file != null*/
-          ) {
+          password.isNotEmpty ||
+          username.isNotEmpty ||
+          file != null) {
         // If they are not empty , create user
         UserCredential credentials = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
@@ -36,7 +33,6 @@ class AuthMethods {
           'username': username,
           'uid': credentials.user!.uid,
           'email': email,
-          'bio': bio,
           'followers': [],
           'following': [],
         });
