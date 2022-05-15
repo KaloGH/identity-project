@@ -1,8 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/foundation.dart';
 import 'package:identity_project/resources/auth_methods.dart';
 import 'package:identity_project/utils/colors.dart';
+import 'package:identity_project/widgets/image_logo.dart';
 import 'package:identity_project/widgets/text_input_field.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -31,16 +33,18 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     // Dependiendo si es escritorio o móvil, cargamos un logo u otro
-    final StatefulWidget logo;
+    final logo;
     if (kIsWeb) {
       logo = SvgPicture.asset(
         'svg/logo_brandname_white.svg',
         height: 350,
       );
     } else {
-      logo = Image.asset(
-        'assets/images/brandname_white.png',
-        height: 150,
+      logo = Expanded(
+        child: Image.asset(
+          'assets/images/brandname_white.png',
+          height: 150,
+        ),
       );
     }
 
@@ -53,16 +57,19 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Flexible(child: Container(), flex: 2),
+              Flexible(child: Container(), flex: 1),
+              // const SizedBox(
+              //   height: 17,
+              // ),
               // **************************************************************
               //                    LOGO SVG
               // **************************************************************
-              logo,
+              const ImageLogo(),
               // **************************************************************
-              //            SPACE BETWEEN LOGO AND INPUT
+              //            SPACE BETWEEN LOGO AND PROFILE IMAGE
               // **************************************************************
               const SizedBox(
-                height: 5,
+                height: 17,
               ),
               // **************************************************************
               //                    PROFILE IMAGE
@@ -81,6 +88,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       onPressed: () {},
                       icon: const Icon(
                         Icons.add_a_photo,
+                        color: primaryColor,
                       ),
                     ),
                   ),
