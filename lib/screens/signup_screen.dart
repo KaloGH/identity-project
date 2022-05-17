@@ -1,10 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter/foundation.dart';
 import 'package:identity_project/resources/auth_methods.dart';
 import 'package:identity_project/utils/colors.dart';
 import 'package:identity_project/utils/utils.dart';
@@ -228,7 +225,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: signUpUser,
                       child: Container(
                         child: const Text(
                           "Sign in.",
