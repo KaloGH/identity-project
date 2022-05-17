@@ -225,7 +225,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: signUpUser,
+                      onTap: () {},
                       child: Container(
                         child: const Text(
                           "Sign in.",

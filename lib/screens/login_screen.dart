@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/foundation.dart';
 import 'package:identity_project/utils/colors.dart';
+import 'package:identity_project/utils/utils.dart';
 import 'package:identity_project/widgets/text_input_field.dart';
+
+import '../resources/auth_methods.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -21,6 +24,18 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
     _emailController.dispose();
     _passController.dispose();
+  }
+
+  void logInUser() async {
+    String res = await AuthMethods().logInUser(
+      email: _emailController.text,
+      password: _passController.text,
+    );
+
+    if (res == 'success') {
+    } else {
+      showSnackBar(res, context);
+    }
   }
 
   @override
@@ -73,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
               // MARGIN BETWEEN INPUTS AND BUTTON
               //Button of login
               InkWell(
+                onTap: logInUser,
                 child: Container(
                   child: const Text(
                     'Log in',
@@ -87,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: const ShapeDecoration(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(100),
                       ),
                     ),
                     color: pinkColor,
