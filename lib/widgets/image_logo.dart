@@ -18,24 +18,16 @@ class ImageLogo extends StatelessWidget {
         height: desktopHeight,
       );
     } else {
-      logo = Expanded(
-        child: KeyboardVisibilityBuilder(builder: (context, visible) {
-          if (visible) {
-            return const Text(
-              '',
-            );
-          } else {
-            return Image.asset(
-              'assets/images/brandname_white.png',
-              height: mobileHeight,
-            );
-          }
-        }),
-        // child: Image.asset(
-        //   'assets/images/brandname_white.png',
-        //   height: mobileHeight,
-        // ),
+      logo = Image.asset(
+        'assets/images/brandname_white.png',
+        height: mobileHeight,
       );
+
+      // child: Image.asset(
+      //   'assets/images/brandname_white.png',
+      //   height: mobileHeight,
+      // ),
+
     }
     return logo;
   }
