@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:identity_project/utils/colors.dart';
 import 'package:identity_project/utils/utils.dart';
 import 'package:identity_project/widgets/text_input_field.dart';
+import 'package:lottie/lottie.dart';
 
 import '../resources/auth_methods.dart';
 
@@ -18,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   // Creamos controllers para pasar a los inputs
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -27,6 +29,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void logInUser() async {
+    setState(() {
+      _isLoading = true;
+    });
     String res = await AuthMethods().logInUser(
       email: _emailController.text,
       password: _passController.text,
@@ -36,6 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       showSnackBar(res, context);
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -89,26 +97,47 @@ class _LoginScreenState extends State<LoginScreen> {
               //Button of login
               InkWell(
                 onTap: logInUser,
-                child: Container(
-                  child: const Text(
-                    'Log in',
-                    style: TextStyle(
-                      color: primaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  decoration: const ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(100),
+                child: _isLoading
+                    ? Stack(
+                        children: [
+                          Center(
+                            child: Lottie.asset(
+                              'assets/json/loading.json',
+                              width: 175,
+                              height: 175,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          const Center(
+                            child: Text(
+                              'Loging in...',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Container(
+                        child: const Text(
+                          'Log in',
+                          style: TextStyle(
+                            color: primaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        decoration: const ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(100),
+                            ),
+                          ),
+                          color: pinkColor,
+                        ),
                       ),
-                    ),
-                    color: pinkColor,
-                  ),
-                ),
               ),
               // MARGIN BETWEEN INPUTS AND BUTTON
               const SizedBox(height: 27),
