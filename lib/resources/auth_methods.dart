@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:identity_project/resources/storage_methods.dart';
+import 'package:identity_project/utils/utils.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -16,10 +17,16 @@ class AuthMethods {
     required String email,
     required String password,
     required String username,
-    required Uint8List file, // Latter we will use Uint8List and not File
+    required Uint8List file,
   }) async {
     String res = "Some error ocurred";
     try {
+      if (file == null) {
+        //showSnackBar('Please upload a photo', context);
+        throw FirebaseAuthException(
+            message: 'Please upload photo.', code: 'no-photo');
+      }
+
       if (email.isNotEmpty ||
           password.isNotEmpty ||
           username.isNotEmpty ||
@@ -44,8 +51,8 @@ class AuthMethods {
 
         res = 'success';
       }
-    } catch (err) {
-      res = err.toString();
+    } on FirebaseAuthException catch (error) {
+      res = getErrorMessage(error.code);
     }
     return res;
   }
@@ -60,14 +67,14 @@ class AuthMethods {
     String res = "Some error ocurred";
 
     try {
-      if (email.isNotEmpty || password.isNotEmpty) {
-        await _auth.signInWithEmailAndPassword(
-            email: email, password: password);
-        res = 'success';
-      }
-    } catch (err) {
-      res = err.toString();
+      // if (email.isNotEmpty || password.isNotEmpty) {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      res = 'success';
+      // }
+    } on FirebaseAuthException catch (error) {
+      res = getErrorMessage(error.code);
     }
+
     return res;
   }
 }
