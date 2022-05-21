@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:identity_project/screens/login_screen.dart';
-import 'package:identity_project/screens/signup_screen.dart';
 import 'package:identity_project/utils/colors.dart';
 
 void main() async {
@@ -68,7 +67,7 @@ class MyApp extends StatelessWidget {
       //   mobileScreenLayout: MobileScreenLayout(),
       //   webScreenLayout: WebScreenLayout(),
       // ),
-      home: const LoginScreen(),
+      home: const LoginScreen(comeFromRegister: false),
     );
   }
 }
