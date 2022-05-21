@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:identity_project/resources/auth_methods.dart';
+import 'package:identity_project/screens/login_screen.dart';
 import 'package:identity_project/utils/colors.dart';
 import 'package:identity_project/utils/utils.dart';
 import 'package:identity_project/widgets/image_logo.dart';
@@ -42,21 +45,47 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void signUpUser() async {
+    // Initialize res var
+    String res = '';
+
+    // Turn  on loader
     setState(() {
       _isLoading = true;
     });
-    String res = await AuthMethods().signUpUser(
-        email: _emailController.text,
-        password: _passController.text,
-        username: _usernameController.text,
-        file: _image!);
 
+    try {
+      if (_image == null) {
+        // If the image is null we throw error so we avoid enter the authMethod to signup
+        throw FirebaseAuthException(
+            code: 'no-image', message: 'Please upload a profile image.');
+      }
+
+      res = await AuthMethods().signUpUser(
+          email: _emailController.text,
+          password: _passController.text,
+          username: _usernameController.text,
+          file: _image!);
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'no-image') res = error.message.toString();
+    }
+
+    // Stop the loader
     setState(() {
       _isLoading = false;
     });
+
+    // Show message if there is an error.
     if (res != 'success') {
       showSnackBar(res, context);
+    } else {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const LoginScreen(comeFromRegister: true)));
     }
+  }
+
+  void redirectToLogin() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const LoginScreen(comeFromRegister: false)));
   }
 
   @override
@@ -81,9 +110,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 // **************************************************************
                 //            SPACE BETWEEN LOGO AND PROFILE IMAGE
                 // **************************************************************
-                const SizedBox(
-                  height: 17,
-                ),
+                // const SizedBox(
+                //   height: 17,
+                // ),
                 // **************************************************************
                 //                    PROFILE IMAGE
                 // **************************************************************
@@ -225,7 +254,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: redirectToLogin,
                       child: Container(
                         child: const Text(
                           "Sign in.",

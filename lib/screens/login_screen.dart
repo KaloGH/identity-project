@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/foundation.dart';
+import 'package:identity_project/screens/home_screen.dart';
+import 'package:identity_project/screens/signup_screen.dart';
 import 'package:identity_project/utils/colors.dart';
 import 'package:identity_project/utils/utils.dart';
 import 'package:identity_project/widgets/text_input_field.dart';
@@ -9,8 +12,10 @@ import 'package:lottie/lottie.dart';
 import '../resources/auth_methods.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  final bool comeFromRegister;
 
+  const LoginScreen({Key? key, required this.comeFromRegister})
+      : super(key: key);
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -32,12 +37,15 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _isLoading = true;
     });
+    KeyboardDismissOnTap;
     String res = await AuthMethods().logInUser(
       email: _emailController.text,
       password: _passController.text,
     );
 
     if (res == 'success') {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const HomeScreen()));
     } else {
       showSnackBar(res, context);
     }
@@ -46,8 +54,26 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  void redirectToRegister() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const SignupScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
+    /**
+     * Se utiliza esta instancia porque en caso de que esté un dato pasado
+     * se lee antes de que se finalice el build.
+     * Por eso se utiliza este callback. Para ejecutar este trozo de código
+     * cuando se hayan cargado los datos.
+     */
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      // Si el usuario se acaba de registar , mostrar toast de registro completado
+      if (widget.comeFromRegister) {
+        showSnackBar('User registered successfully', context);
+      }
+    });
+
     // Dependiendo si es escritorio o móvil, cargamos un logo u otro
     final StatefulWidget logo;
     if (kIsWeb) {
@@ -62,7 +88,8 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     }
 
-    return Scaffold(
+    return KeyboardDismissOnTap(
+        child: Scaffold(
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -73,9 +100,9 @@ class _LoginScreenState extends State<LoginScreen> {
               Flexible(child: Container(), flex: 1),
               //svg logo
               logo,
-              const SizedBox(
-                height: 34,
-              ),
+              // const SizedBox(
+              //   height: 24,
+              // ),
               //Inputs of email and password
               TextInputField(
                 controller: _emailController,
@@ -155,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: redirectToRegister,
                     child: Container(
                       child: const Text(
                         "Sign up.",
@@ -174,6 +201,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    );
+    ));
   }
 }
