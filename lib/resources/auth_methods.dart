@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:identity_project/models/user.dart' as model;
 import 'package:identity_project/resources/storage_methods.dart';
 import 'package:identity_project/utils/utils.dart';
 
@@ -39,17 +40,22 @@ class AuthMethods {
         String photoUrl = await StorageMethods()
             .uploadImageToStorage('profile_images', file, false);
 
+        // We import the user as model to avoid using the firebase user class
+        model.User user = model.User(
+          uid: credentials.user!.uid,
+          email: email,
+          username: username,
+          bio: defaultBioMessage,
+          photoUrl: photoUrl,
+          followers: [],
+          following: [],
+        );
+
         // To store all info we have , we store the user in our database
         // We create collection and doc if not exist and set the data in this doc.
-        _firestore.collection('users').doc(credentials.user!.uid).set({
-          'username': username,
-          'uid': credentials.user!.uid,
-          'email': email,
-          'bio': defaultBioMessage,
-          'followers': [],
-          'following': [],
-          'photoUrl': photoUrl,
-        });
+        await _firestore.collection('users').doc(credentials.user!.uid).set(
+              user.toJson(),
+            );
 
         res = 'success';
       }
