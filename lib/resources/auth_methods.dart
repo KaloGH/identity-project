@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:identity_project/resources/storage_methods.dart';
 import 'package:identity_project/utils/utils.dart';
 
@@ -20,6 +19,8 @@ class AuthMethods {
     required Uint8List file,
   }) async {
     String res = "Some error ocurred";
+    const String defaultBioMessage =
+        'Im new in iDentity App. I didn\'t change my biography yet. Just give me some time :) ';
     try {
       if (file == null) {
         //showSnackBar('Please upload a photo', context);
@@ -44,6 +45,7 @@ class AuthMethods {
           'username': username,
           'uid': credentials.user!.uid,
           'email': email,
+          'bio': defaultBioMessage,
           'followers': [],
           'following': [],
           'photoUrl': photoUrl,
