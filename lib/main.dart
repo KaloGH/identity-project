@@ -3,13 +3,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:identity_project/providers/user_provider.dart';
 import 'package:identity_project/responsive/mobile_screen_layout.dart';
 import 'package:identity_project/responsive/responsive_layout_screen.dart';
 import 'package:identity_project/responsive/web_screen_layout.dart';
 import 'package:identity_project/screens/login_screen.dart';
 import 'package:identity_project/utils/colors.dart';
 import 'package:identity_project/widgets/loader.dart';
-import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,45 +63,52 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner:
-          false, // Removes the debug banner from top side.
-      title: 'iDentity',
-      theme: ThemeData().copyWith(
-        scaffoldBackgroundColor: mobileBackgroundColor,
-      ),
-      // home: const ResponsiveLayout(
-      //   mobileScreenLayout: MobileScreenLayout(),
-      //   webScreenLayout: WebScreenLayout(),
-      // ),
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            // Is logged in.
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
+        )
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner:
+            false, // Removes the debug banner from top side.
+        title: 'iDentity',
+        theme: ThemeData().copyWith(
+          scaffoldBackgroundColor: mobileBackgroundColor,
+        ),
+        // home: const ResponsiveLayout(
+        //   mobileScreenLayout: MobileScreenLayout(),
+        //   webScreenLayout: WebScreenLayout(),
+        // ),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              // Is logged in.
 
-            if (snapshot.hasData) {
-              return const ResponsiveLayout(
-                mobileScreenLayout: MobileScreenLayout(),
-                webScreenLayout: WebScreenLayout(),
-              );
-            } else if (snapshot.hasError) {
-              return Center(child: Text('${snapshot.error}'));
+              if (snapshot.hasData) {
+                return const ResponsiveLayout(
+                  mobileScreenLayout: MobileScreenLayout(),
+                  webScreenLayout: WebScreenLayout(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(child: Text('${snapshot.error}'));
+              }
             }
-          }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // Is logging in
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // Is logging in
 
-            return const Scaffold(
-              backgroundColor: mobileBackgroundColor,
-              body: Center(child: Loader(width: 500, height: 500)),
-            );
-          }
+              return const Scaffold(
+                backgroundColor: mobileBackgroundColor,
+                body: Center(child: Loader(width: 500, height: 500)),
+              );
+            }
 
-          return const LoginScreen(
-              comeFromRegister: false); // There isn't user in so go to Login.
-        },
+            return const LoginScreen(
+                comeFromRegister: false); // There isn't user in so go to Login.
+          },
+        ),
       ),
     );
   }
