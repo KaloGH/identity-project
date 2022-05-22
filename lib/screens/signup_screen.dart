@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -106,7 +105,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 // **************************************************************
                 //                    LOGO SVG
                 // **************************************************************
-                const ImageLogo(),
+                ImageLogo(height: -1, logoType: 'default', textColor: 'white'),
                 // **************************************************************
                 //            SPACE BETWEEN LOGO AND PROFILE IMAGE
                 // **************************************************************

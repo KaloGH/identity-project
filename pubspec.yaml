@@ -56,17 +56,20 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
+
+    # Logos
     - assets/svg/logo.svg
+    - assets/images/logo.png
+    # BRANDNAME
     - assets/svg/brandname_black.svg
     - assets/svg/brandname_white.svg
-    - assets/svg/logo_brandname_black.svg
-    - assets/svg/logo_brandname_white.svg
-
-    - assets/images/logo.png
     - assets/images/brandname_black.png
     - assets/images/brandname_white.png
     - assets/images/brandname_two_lines_white.png
     - assets/images/brandname_two_lines_black.png
+    # LOGO AND BRANDNAME
+    - assets/svg/logo_brandname_black.svg
+    - assets/svg/logo_brandname_white.svg
     - assets/images/logo_brandname_white.png
     - assets/images/logo_brandname_black.png
 

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter/foundation.dart';
-import 'package:identity_project/screens/home_screen.dart';
+import 'package:identity_project/responsive/mobile_screen_layout.dart';
+import 'package:identity_project/responsive/responsive_layout_screen.dart';
+import 'package:identity_project/responsive/web_screen_layout.dart';
 import 'package:identity_project/screens/signup_screen.dart';
 import 'package:identity_project/utils/colors.dart';
 import 'package:identity_project/utils/utils.dart';
+import 'package:identity_project/widgets/image_logo.dart';
 import 'package:identity_project/widgets/text_input_field.dart';
 import 'package:lottie/lottie.dart';
 
@@ -37,15 +38,13 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _isLoading = true;
     });
-    KeyboardDismissOnTap;
+
     String res = await AuthMethods().logInUser(
       email: _emailController.text,
       password: _passController.text,
     );
 
     if (res == 'success') {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomeScreen()));
     } else {
       showSnackBar(res, context);
     }
@@ -59,6 +58,14 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => const SignupScreen()));
   }
 
+  void redirectToHome() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const ResponsiveLayout(
+              mobileScreenLayout: MobileScreenLayout(),
+              webScreenLayout: WebScreenLayout(),
+            )));
+  }
+
   @override
   Widget build(BuildContext context) {
     /**
@@ -67,26 +74,17 @@ class _LoginScreenState extends State<LoginScreen> {
      * Por eso se utiliza este callback. Para ejecutar este trozo de código
      * cuando se hayan cargado los datos.
      */
+
+    num limitMessageErrorFix = 0;
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       // Si el usuario se acaba de registar , mostrar toast de registro completado
       if (widget.comeFromRegister) {
-        showSnackBar('User registered successfully', context);
+        if (limitMessageErrorFix == 0) {
+          showSnackBar('User registered successfully', context);
+        }
       }
+      limitMessageErrorFix++;
     });
-
-    // Dependiendo si es escritorio o móvil, cargamos un logo u otro
-    final StatefulWidget logo;
-    if (kIsWeb) {
-      logo = SvgPicture.asset(
-        'svg/logo_brandname_white.svg',
-        height: 350,
-      );
-    } else {
-      logo = Image.asset(
-        'assets/images/brandname_white.png',
-        height: 250,
-      );
-    }
 
     return KeyboardDismissOnTap(
         child: Scaffold(
@@ -99,10 +97,11 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Flexible(child: Container(), flex: 1),
               //svg logo
-              logo,
-              // const SizedBox(
-              //   height: 24,
-              // ),
+              ImageLogo(
+                height: -1,
+                logoType: 'default',
+                textColor: 'default',
+              ),
               //Inputs of email and password
               TextInputField(
                 controller: _emailController,
