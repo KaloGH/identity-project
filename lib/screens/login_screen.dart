@@ -9,7 +9,6 @@ import 'package:identity_project/utils/utils.dart';
 import 'package:identity_project/widgets/image_logo.dart';
 import 'package:identity_project/widgets/loader.dart';
 import 'package:identity_project/widgets/text_input_field.dart';
-import 'package:lottie/lottie.dart';
 
 import '../resources/auth_methods.dart';
 
@@ -27,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   bool _isLoading = false;
+  num limitMessageErrorFix = 0;
 
   @override
   void dispose() {
@@ -46,8 +46,21 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     if (res == 'success') {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+            mobileScreenLayout: MobileScreenLayout(),
+            webScreenLayout: WebScreenLayout(),
+          ),
+        ),
+      );
     } else {
-      showSnackBar(res, context);
+      setState(() {
+        _isLoading = false;
+      });
+
+      showCustomErrorDialog(res, context);
     }
     setState(() {
       _isLoading = false;
@@ -76,12 +89,14 @@ class _LoginScreenState extends State<LoginScreen> {
      * cuando se hayan cargado los datos.
      */
 
-    num limitMessageErrorFix = 0;
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       // Si el usuario se acaba de registar , mostrar toast de registro completado
       if (widget.comeFromRegister) {
         if (limitMessageErrorFix == 0) {
           showSnackBar('User registered successfully', context);
+          setState(() {
+            limitMessageErrorFix++;
+          });
         }
       }
       limitMessageErrorFix++;
