@@ -1,9 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:identity_project/responsive/mobile_screen_layout.dart';
+import 'package:identity_project/responsive/responsive_layout_screen.dart';
+import 'package:identity_project/responsive/web_screen_layout.dart';
 import 'package:identity_project/screens/login_screen.dart';
 import 'package:identity_project/utils/colors.dart';
+import 'package:lottie/lottie.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,7 +72,42 @@ class MyApp extends StatelessWidget {
       //   mobileScreenLayout: MobileScreenLayout(),
       //   webScreenLayout: WebScreenLayout(),
       // ),
-      home: const LoginScreen(comeFromRegister: false),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            // Is logged in.
+
+            if (snapshot.hasData) {
+              return const ResponsiveLayout(
+                mobileScreenLayout: MobileScreenLayout(),
+                webScreenLayout: WebScreenLayout(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(child: Text('${snapshot.error}'));
+            }
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Is logging in
+
+            return Scaffold(
+              backgroundColor: mobileBackgroundColor,
+              body: Center(
+                child: Lottie.asset(
+                  'assets/json/loading.json',
+                  width: 500,
+                  height: 500,
+                  fit: BoxFit.fill,
+                ),
+              ),
+            );
+          }
+
+          return const LoginScreen(
+              comeFromRegister: false); // There isn't user in so go to Login.
+        },
+      ),
     );
   }
 }
