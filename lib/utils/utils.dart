@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:identity_project/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
 
 pickImage(ImageSource source) async {
@@ -18,6 +19,54 @@ showSnackBar(String content, BuildContext context) {
     SnackBar(
       content: Text(content),
     ),
+  );
+}
+
+showCustomErrorDialog(String content, BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: pinkColor,
+        title: const Text(
+          'Error',
+          style: TextStyle(
+            color: primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Text(
+          content,
+          style: const TextStyle(
+            color: primaryColor,
+          ),
+        ),
+        actions: <Widget>[
+          InkWell(
+            onTap: Navigator.of(context).pop,
+            child: Container(
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: primaryColor,
+                ),
+              ),
+              width: double.infinity,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              decoration: const ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(100),
+                  ),
+                ),
+                color: mobileBackgroundColor,
+              ),
+            ),
+          ),
+        ],
+      );
+    },
   );
 }
 

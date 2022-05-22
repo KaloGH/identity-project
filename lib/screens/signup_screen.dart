@@ -74,12 +74,13 @@ class _SignupScreenState extends State<SignupScreen> {
       _isLoading = false;
     });
 
-    // Show message if there is an error.
-    if (res != 'success') {
-      showSnackBar(res, context);
-    } else {
+    if (res == 'success') {
+      // If the user is successfully signed up we redirect to the login screen
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const LoginScreen(comeFromRegister: true)));
+    } else {
+      // Show message if there is an error.
+      showCustomErrorDialog(res, context);
     }
   }
 
