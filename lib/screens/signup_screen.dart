@@ -8,6 +8,7 @@ import 'package:identity_project/screens/login_screen.dart';
 import 'package:identity_project/utils/colors.dart';
 import 'package:identity_project/utils/utils.dart';
 import 'package:identity_project/widgets/image_logo.dart';
+import 'package:identity_project/widgets/loader.dart';
 import 'package:identity_project/widgets/text_input_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
@@ -194,16 +195,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   onTap: signUpUser,
                   child: _isLoading
                       ? Stack(
-                          children: [
+                          children: const [
+                            Center(child: Loader(width: 175, height: 175)),
                             Center(
-                              child: Lottie.asset(
-                                'assets/json/loading.json',
-                                width: 175,
-                                height: 175,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            const Center(
                               child: Text(
                                 'Creating user...',
                                 style: TextStyle(

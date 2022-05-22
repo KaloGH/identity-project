@@ -8,6 +8,7 @@ import 'package:identity_project/responsive/responsive_layout_screen.dart';
 import 'package:identity_project/responsive/web_screen_layout.dart';
 import 'package:identity_project/screens/login_screen.dart';
 import 'package:identity_project/utils/colors.dart';
+import 'package:identity_project/widgets/loader.dart';
 import 'package:lottie/lottie.dart';
 
 void main() async {
@@ -91,16 +92,9 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Is logging in
 
-            return Scaffold(
+            return const Scaffold(
               backgroundColor: mobileBackgroundColor,
-              body: Center(
-                child: Lottie.asset(
-                  'assets/json/loading.json',
-                  width: 500,
-                  height: 500,
-                  fit: BoxFit.fill,
-                ),
-              ),
+              body: Center(child: Loader(width: 500, height: 500)),
             );
           }
 
