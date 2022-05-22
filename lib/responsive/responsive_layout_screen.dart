@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:identity_project/utils/dimensions.dart';
 
-class ResponsiveLayout extends StatelessWidget {
+class ResponsiveLayout extends StatefulWidget {
   final Widget webScreenLayout;
   final Widget mobileScreenLayout;
 
@@ -12,14 +12,21 @@ class ResponsiveLayout extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ResponsiveLayout> createState() => _ResponsiveLayoutState();
+}
+
+class _ResponsiveLayoutState extends State<ResponsiveLayout> {
+  @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth > webScreenSize) {
-        // Web / Desktop screen
-        return webScreenLayout;
-      }
-      // Mobile screen
-      return mobileScreenLayout;
-    });
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth > webScreenSize) {
+          // Web / Desktop screen
+          return widget.webScreenLayout;
+        }
+        // Mobile screen
+        return widget.mobileScreenLayout;
+      },
+    );
   }
 }
