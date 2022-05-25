@@ -94,12 +94,12 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       bottomNavigationBar: CupertinoTabBar(
         height: 60,
         iconSize: 30,
-        backgroundColor: pinkColor,
+        backgroundColor: appYellowColor,
         items: [
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
-              color: _page == 0 ? appBlueColor : appBlackColor,
+              color: _page == 0 ? pinkColor : appBlackColor,
             ),
             label: '',
             backgroundColor: appBlackColor,
@@ -107,7 +107,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.search,
-              color: _page == 1 ? appBlueColor : appBlackColor,
+              color: _page == 1 ? pinkColor : appBlackColor,
             ),
             label: '',
             backgroundColor: appBlackColor,
@@ -115,7 +115,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.add_circle,
-              color: _page == 2 ? appBlueColor : appWhiteColor,
+              color: _page == 2 ? pinkColor : appWhiteColor,
             ),
             label: '',
             backgroundColor: appBlackColor,
@@ -123,7 +123,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.favorite,
-              color: _page == 3 ? appBlueColor : appBlackColor,
+              color: _page == 3 ? pinkColor : appBlackColor,
             ),
             label: '',
             backgroundColor: appBlackColor,
@@ -131,7 +131,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person_rounded,
-              color: _page == 4 ? appBlueColor : appBlackColor,
+              color: _page == 4 ? pinkColor : appBlackColor,
             ),
             label: '',
             backgroundColor: appBlackColor,
