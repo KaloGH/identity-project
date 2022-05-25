@@ -63,6 +63,10 @@ class _AddPostScreenState extends State<AddPostScreen>
   }
 
   _selectImage(BuildContext parentContext) async {
+    /**
+     * Creamos diálogo para escoger una imagen entre galería o cámara.
+     */
+
     return showDialog(
       context: parentContext,
       builder: (BuildContext context) {
@@ -84,7 +88,7 @@ class _AddPostScreenState extends State<AddPostScreen>
                 ),
                 iconSize: 230,
                 onPressed: () async {
-                  await _playAnimationOnTap(cameraAnimationController);
+                  // await _playAnimationOnTap(cameraAnimationController);
                   Navigator.pop(context);
                   Uint8List file = await pickImage(ImageSource.camera);
                   setState(() {
@@ -107,7 +111,7 @@ class _AddPostScreenState extends State<AddPostScreen>
                 ),
                 iconSize: 230,
                 onPressed: () async {
-                  await _playAnimationOnTap(galleryAnimationController);
+                  // await _playAnimationOnTap(galleryAnimationController);
                   Navigator.pop(context);
                   Uint8List file = await pickImage(ImageSource.gallery);
                   setState(() {
@@ -141,7 +145,7 @@ class _AddPostScreenState extends State<AddPostScreen>
               ),
               iconSize: 230,
               onPressed: () async {
-                await _playAnimationOnTap(uploadFileAnimationController);
+                // await _playAnimationOnTap(uploadFileAnimationController);
                 _selectImage(context);
               },
             ),
@@ -170,47 +174,96 @@ class _AddPostScreenState extends State<AddPostScreen>
                 )
               ],
             ),
-            body: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        'https://images.unsplash.com/photo-1541701494587-cb58502866ab?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470',
+            body: Center(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        height: 20,
                       ),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      child: TextField(
-                        decoration: const InputDecoration(
-                          hintText: 'Write a caption...',
-                          border: InputBorder.none,
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 85,
+                      ),
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(
+                          'https://images.unsplash.com/photo-1541701494587-cb58502866ab?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470',
                         ),
-                        maxLines: 8,
+                        radius: 35,
                       ),
-                    ),
-                    SizedBox(
-                      height: 45,
-                      width: 45,
-                      child: AspectRatio(
-                        aspectRatio: 487 / 451,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  'https://images.unsplash.com/photo-1541701494587-cb58502866ab?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470'),
-                              fit: BoxFit.fill,
-                              alignment: FractionalOffset.topCenter,
+                      SizedBox(
+                        width: 55,
+                      ),
+                      const Text(
+                        'Username',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        height: 30,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 300,
+                        width: MediaQuery.of(context).size.width * 1,
+                        child: AspectRatio(
+                          aspectRatio: 300 / 780,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: MemoryImage(_file!),
+                                fit: BoxFit.fill,
+                                alignment: FractionalOffset.topCenter,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    )
-                  ],
-                )
-              ],
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        height: 35,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 1,
+                        child: TextField(
+                          decoration: const InputDecoration(
+                            hintText: 'Write a caption...',
+                            border: InputBorder.none,
+                          ),
+                          maxLines: 8,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
   }
