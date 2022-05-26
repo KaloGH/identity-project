@@ -1,10 +1,13 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:identity_project/models/user.dart';
+import 'package:identity_project/providers/user_provider.dart';
 import 'package:identity_project/utils/colors.dart';
 import 'package:identity_project/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({Key? key}) : super(key: key);
@@ -20,6 +23,11 @@ class _AddPostScreenState extends State<AddPostScreen>
   late AnimationController uploadFileAnimationController;
 
   Uint8List? _file;
+  final TextEditingController _captionController = TextEditingController();
+
+  postImage(String uid, String username, String uImage) async {
+    try {} catch (e) {}
+  }
 
   @override
   void initState() {
@@ -55,6 +63,7 @@ class _AddPostScreenState extends State<AddPostScreen>
     cameraAnimationController.dispose();
     galleryAnimationController.dispose();
     uploadFileAnimationController.dispose();
+    _captionController.dispose();
     super.dispose();
   }
 
@@ -138,6 +147,7 @@ class _AddPostScreenState extends State<AddPostScreen>
 
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<UserProvider>(context).getUser;
     return _file == null
         ? Center(
             child: IconButton(
@@ -181,7 +191,7 @@ class _AddPostScreenState extends State<AddPostScreen>
               child: Column(
                 children: [
                   Row(
-                    children: [
+                    children: const [
                       SizedBox(
                         width: 100,
                         height: 20,
@@ -192,21 +202,21 @@ class _AddPostScreenState extends State<AddPostScreen>
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: 85,
+                        width: MediaQuery.of(context).size.width * 0.1,
                       ),
                       CircleAvatar(
                         backgroundImage: NetworkImage(
-                          'https://images.unsplash.com/photo-1541701494587-cb58502866ab?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470',
+                          user.photoUrl,
                         ),
                         radius: 35,
                       ),
-                      SizedBox(
-                        width: 55,
+                      const SizedBox(
+                        width: 50,
                       ),
-                      const Text(
-                        'Username',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
+                      Text(
+                        user.username,
+                        textAlign: TextAlign.end,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -214,7 +224,7 @@ class _AddPostScreenState extends State<AddPostScreen>
                     ],
                   ),
                   Row(
-                    children: [
+                    children: const [
                       SizedBox(
                         width: 100,
                         height: 30,
@@ -226,9 +236,9 @@ class _AddPostScreenState extends State<AddPostScreen>
                     children: [
                       SizedBox(
                         height: 300,
-                        width: MediaQuery.of(context).size.width * 1,
+                        width: MediaQuery.of(context).size.width * 0.9,
                         child: AspectRatio(
-                          aspectRatio: 300 / 500,
+                          aspectRatio: 16 / 9,
                           child: Container(
                             decoration: BoxDecoration(
                               image: DecorationImage(
@@ -243,7 +253,7 @@ class _AddPostScreenState extends State<AddPostScreen>
                     ],
                   ),
                   Row(
-                    children: [
+                    children: const [
                       SizedBox(
                         width: 100,
                         height: 35,
@@ -254,8 +264,9 @@ class _AddPostScreenState extends State<AddPostScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 1,
+                        width: MediaQuery.of(context).size.width * 0.9,
                         child: TextField(
+                          controller: _captionController,
                           decoration: const InputDecoration(
                             hintText: 'Write a caption...',
                             border: InputBorder.none,
