@@ -6,6 +6,7 @@ import 'package:identity_project/providers/user_provider.dart';
 import 'package:identity_project/resources/firestore_methods.dart';
 import 'package:identity_project/utils/colors.dart';
 import 'package:identity_project/utils/utils.dart';
+import 'package:identity_project/widgets/loader.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -19,28 +20,19 @@ class AddPostScreen extends StatefulWidget {
 
 class _AddPostScreenState extends State<AddPostScreen>
     with TickerProviderStateMixin {
+  // Controladores para las animaciones cargadas con Lottie.
   late AnimationController cameraAnimationController;
   late AnimationController galleryAnimationController;
   late AnimationController uploadFileAnimationController;
 
+  // Variables para utilizar en el control del formulario.
   Uint8List? _file;
   final TextEditingController _captionController = TextEditingController();
+  bool _isLoading = false;
 
-  postImage(String uid, String username, String profileImage) async {
-    try {
-      String res = await FirestoreMethods().uploadPost(
-          _captionController.text, _file!, uid, username, profileImage);
-
-      if (res == 'Success') {
-        showSnackBar('Posted!', context);
-      } else {
-        showSnackBar(res, context);
-      }
-    } catch (e) {
-      showSnackBar(e.toString(), context);
-    }
-  }
-
+  /*
+  * Iniciamos estado de los controladores de las animaciones
+  */
   @override
   void initState() {
     super.initState();
@@ -70,6 +62,9 @@ class _AddPostScreenState extends State<AddPostScreen>
     });
   }
 
+  /* 
+  * Limiamos los controladores
+  */
   @override
   void dispose() {
     cameraAnimationController.dispose();
@@ -79,15 +74,54 @@ class _AddPostScreenState extends State<AddPostScreen>
     super.dispose();
   }
 
-  _playAnimationOnTap(AnimationController controller) async {
+  /* 
+  * Metodos para utilizar en el control del formulario.
+  */
+
+  /// Elimina el estado de la imagen.
+  void _clearImage() {
+    setState(() {
+      _file = null;
+    });
+  }
+
+  /// Método para subir la informaicónn del post a Firebase Firestore.
+  void postImage(String uid, String username, String profileImage) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      String res = await FirestoreMethods().uploadPost(
+          _captionController.text, _file!, uid, username, profileImage);
+
+      if (res == 'Success') {
+        setState(() {
+          _isLoading = false;
+        });
+        showSnackBar('Posted!', context, false);
+        _clearImage();
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        showSnackBar(res, context, true);
+      }
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      showSnackBar(e.toString(), context, true);
+    }
+  }
+
+  /// Iniciamos animación del Lottie pulsado.
+  void _playAnimationOnTap(AnimationController controller) async {
     await controller.forward();
   }
 
+  /// Creamos diálogo para escoger una imagen entre galería o cámara.
   _selectImage(BuildContext parentContext) async {
-    /**
-     * Creamos diálogo para escoger una imagen entre galería o cámara.
-     */
-
     return showDialog(
       context: parentContext,
       builder: (BuildContext context) {
@@ -181,7 +215,7 @@ class _AddPostScreenState extends State<AddPostScreen>
               backgroundColor: appYellowColor,
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () {},
+                onPressed: _clearImage,
               ),
               title: const Text('Post to'),
               centerTitle: true,
@@ -205,7 +239,14 @@ class _AddPostScreenState extends State<AddPostScreen>
             ),
             body: Center(
               child: Column(
-                children: [
+                children: <Widget>[
+                  _isLoading
+                      ? const LinearProgressIndicator(
+                          color: pinkColor,
+                          backgroundColor: appBlueColor,
+                        )
+                      : const Padding(padding: EdgeInsets.only(top: 0.0)),
+                  const Divider(),
                   Row(
                     children: const [
                       SizedBox(
@@ -287,11 +328,12 @@ class _AddPostScreenState extends State<AddPostScreen>
                             hintText: 'Write a caption...',
                             border: InputBorder.none,
                           ),
-                          maxLines: 8,
+                          maxLines: 4,
                         ),
                       ),
                     ],
                   ),
+                  const Divider(),
                 ],
               ),
             ),

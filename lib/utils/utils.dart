@@ -14,10 +14,13 @@ pickImage(ImageSource source) async {
   print('No image selected');
 }
 
-showSnackBar(String content, BuildContext context) {
+showSnackBar(String content, BuildContext context, bool isError) {
+  var backgroundColor = isError ? pinkColor : appBlueColor;
+
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(content),
+      backgroundColor: backgroundColor,
     ),
   );
 }

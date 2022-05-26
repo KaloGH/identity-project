@@ -93,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // Si el usuario se acaba de registar , mostrar toast de registro completado
       if (widget.comeFromRegister) {
         if (limitMessageErrorFix == 0) {
-          showSnackBar('User registered successfully', context);
+          showSnackBar('User registered successfully', context, false);
           setState(() {
             limitMessageErrorFix++;
           });
