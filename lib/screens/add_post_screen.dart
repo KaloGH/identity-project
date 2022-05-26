@@ -72,7 +72,6 @@ class _AddPostScreenState extends State<AddPostScreen>
       builder: (BuildContext context) {
         return SimpleDialog(
           backgroundColor: appYellowColor,
-          title: const Text(''),
           children: <Widget>[
             SimpleDialogOption(
               padding: const EdgeInsets.all(20),
@@ -122,7 +121,11 @@ class _AddPostScreenState extends State<AddPostScreen>
             ),
             SimpleDialogOption(
               padding: const EdgeInsets.all(20),
-              child: const Text("Cancel"),
+              child: const Center(
+                  child: Text(
+                'Cancel',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -225,7 +228,7 @@ class _AddPostScreenState extends State<AddPostScreen>
                         height: 300,
                         width: MediaQuery.of(context).size.width * 1,
                         child: AspectRatio(
-                          aspectRatio: 300 / 780,
+                          aspectRatio: 300 / 500,
                           child: Container(
                             decoration: BoxDecoration(
                               image: DecorationImage(
