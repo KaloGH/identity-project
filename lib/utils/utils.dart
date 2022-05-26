@@ -60,7 +60,7 @@ showCustomErrorDialog(String content, BuildContext context) {
                     Radius.circular(100),
                   ),
                 ),
-                color: mobileBackgroundColor,
+                color: appDarkYellowColor,
               ),
             ),
           ),

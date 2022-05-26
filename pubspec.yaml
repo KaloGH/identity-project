@@ -74,7 +74,12 @@ flutter:
     - assets/images/logo_brandname_white.png
     - assets/images/logo_brandname_black.png
 
+    #LOADER
     - assets/json/loading.json
+    # UPLOAD POST
+    - assets/json/use_camera.json
+    - assets/json/from_gallery.json
+    - assets/json/upload_file.json
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

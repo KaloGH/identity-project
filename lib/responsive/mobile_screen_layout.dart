@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:identity_project/utils/colors.dart';
+import 'package:identity_project/utils/global_variables.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({Key? key}) : super(key: key);
@@ -40,53 +41,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     return Scaffold(
       backgroundColor: appYellowColor,
       body: PageView(
-        children: [
-          Container(
-            color: appYellowColor,
-            child: const Center(
-              child: Text(
-                'Home',
-                style: TextStyle(fontSize: 32),
-              ),
-            ),
-          ),
-          Container(
-            color: appYellowColor,
-            child: const Center(
-              child: Text(
-                'Search',
-                style: const TextStyle(fontSize: 32),
-              ),
-            ),
-          ),
-          Container(
-            color: appYellowColor,
-            child: const Center(
-              child: Text(
-                'Upload',
-                style: TextStyle(fontSize: 32),
-              ),
-            ),
-          ),
-          Container(
-            color: appYellowColor,
-            child: const Center(
-              child: Text(
-                'Favorites',
-                style: const TextStyle(fontSize: 32),
-              ),
-            ),
-          ),
-          Container(
-            color: appYellowColor,
-            child: const Center(
-              child: Text(
-                'Profile',
-                style: TextStyle(fontSize: 32),
-              ),
-            ),
-          ),
-        ],
+        children: appScreens,
         //physics: const NeverScrollableScrollPhysics(), // Elimina el scroll entre paginas.
         controller: pageController,
         onPageChanged: onPageChanged,

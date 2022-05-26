@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
             false, // Removes the debug banner from top side.
         title: 'iDentity',
         theme: ThemeData().copyWith(
-          scaffoldBackgroundColor: mobileBackgroundColor,
+          scaffoldBackgroundColor: appDarkYellowColor,
         ),
         // home: const ResponsiveLayout(
         //   mobileScreenLayout: MobileScreenLayout(),
@@ -100,7 +100,7 @@ class MyApp extends StatelessWidget {
               // Is logging in
 
               return const Scaffold(
-                backgroundColor: mobileBackgroundColor,
+                backgroundColor: appYellowColor,
                 body: Center(child: Loader(width: 500, height: 500)),
               );
             }
