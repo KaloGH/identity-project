@@ -6,12 +6,12 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:identity_project/resources/auth_methods.dart';
 import 'package:identity_project/screens/login_screen.dart';
 import 'package:identity_project/utils/colors.dart';
+import 'package:identity_project/utils/global_variables.dart';
 import 'package:identity_project/utils/utils.dart';
 import 'package:identity_project/widgets/image_logo.dart';
 import 'package:identity_project/widgets/loader.dart';
 import 'package:identity_project/widgets/text_input_field.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lottie/lottie.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -60,13 +60,18 @@ class _SignupScreenState extends State<SignupScreen> {
             code: 'no-image', message: 'Please upload a profile image.');
       }
 
+      if (_usernameController.text.isEmpty) {
+        throw FirebaseAuthException(
+            code: 'EmptyUsername', message: 'Username is required');
+      }
+
       res = await AuthMethods().signUpUser(
           email: _emailController.text,
           password: _passController.text,
           username: _usernameController.text,
           file: _image!);
     } on FirebaseAuthException catch (error) {
-      if (error.code == 'no-image') res = error.message.toString();
+      res = error.message.toString();
     }
 
     // Stop the loader
@@ -95,7 +100,10 @@ class _SignupScreenState extends State<SignupScreen> {
       child: Scaffold(
         body: SafeArea(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 45),
+            padding: MediaQuery.of(context).size.width > webScreenSize
+                ? EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width / 3)
+                : const EdgeInsets.symmetric(horizontal: 45),
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
