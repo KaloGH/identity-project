@@ -27,7 +27,7 @@ import 'package:flutter/foundation.dart'; // For kIsWeb
 ///
 /// ```dart
 ///   textColor: ('white' || 'black'
-///   || 'default'); //TODO Continuar por aquí con la documentación.
+///   || 'default');
 /// ```
 ///
 /// In case you don't want to setup the variables can use the default values:
