@@ -5,6 +5,7 @@ import 'package:identity_project/responsive/responsive_layout_screen.dart';
 import 'package:identity_project/responsive/web_screen_layout.dart';
 import 'package:identity_project/screens/signup_screen.dart';
 import 'package:identity_project/utils/colors.dart';
+import 'package:identity_project/utils/global_variables.dart';
 import 'package:identity_project/utils/utils.dart';
 import 'package:identity_project/widgets/image_logo.dart';
 import 'package:identity_project/widgets/loader.dart';
@@ -106,7 +107,10 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Scaffold(
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
+          padding: MediaQuery.of(context).size.width > webScreenSize
+              ? EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width / 3)
+              : const EdgeInsets.symmetric(horizontal: 32),
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
