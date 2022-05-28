@@ -1,32 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:identity_project/screens/add_post_screen.dart';
+import 'package:identity_project/screens/favourite_screen.dart';
+import 'package:identity_project/screens/feed_screen.dart';
+import 'package:identity_project/screens/profile_screen.dart';
+import 'package:identity_project/screens/search_screen.dart';
 
 const webScreenSize = 600;
 
-const appScreens = [
-  Center(
-    child: Text(
-      'Home',
-      style: TextStyle(fontSize: 32),
-    ),
-  ),
-  Center(
-    child: Text(
-      'Search',
-      style: TextStyle(fontSize: 32),
-    ),
-  ),
-  AddPostScreen(),
-  Center(
-    child: Text(
-      'Favorites',
-      style: TextStyle(fontSize: 32),
-    ),
-  ),
-  Center(
-    child: Text(
-      'Profile',
-      style: TextStyle(fontSize: 32),
-    ),
+List<Widget> appScreens = [
+  const FeedScreen(),
+  const SearchScreen(),
+  const AddPostScreen(),
+  const FavouriteScreen(),
+  ProfileScreen(
+    uid: FirebaseAuth.instance.currentUser!.uid,
   ),
 ];
