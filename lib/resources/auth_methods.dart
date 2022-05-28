@@ -75,15 +75,25 @@ class AuthMethods {
     String res = "Some error ocurred";
 
     try {
-      // if (email.isNotEmpty || password.isNotEmpty) {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-      res = 'success';
-      // }
+      if (email.isNotEmpty || password.isNotEmpty) {
+        await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+        res = 'success';
+      } else {
+        res = 'Please fill all fields-';
+      }
     } on FirebaseAuthException catch (error) {
       res = getErrorMessage(error.code);
     }
 
     return res;
+  }
+
+  // **************************************************************
+  //                    SIGN out
+  // **************************************************************
+  Future<void> signOutUser() async {
+    await _auth.signOut();
   }
 
   // **************************************************************
