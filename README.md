@@ -1,5 +1,6 @@
 
-![Logo](http://kaloyanek.me/assets/img/3.png)
+![Logo](http://kaloyanek.me/assets/img/logo_brandname_white.svg)
+![Logo](http://kaloyanek.me/assets/img/logo_brandname_black.svg)
 
 
 # iDentity - Social Network
