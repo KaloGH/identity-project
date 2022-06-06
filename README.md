@@ -56,15 +56,15 @@ Install dependencies
 
 
 
-## Deployment
+## Run i Local
 
-To deploy this project in chrome run
+To run this project in chrome run
 
 ```bash
   $> flutter run -d chrome
 ```
 
-To deploy this project in mobile device
+To run this project in mobile device
 
 ```bash
   $> flutter devices
